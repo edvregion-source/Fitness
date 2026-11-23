@@ -1,21 +1,28 @@
-# Ember Fitness
+# FORGE Fitness Goal Tracker (PWA starter)
 
-Aplikasi fitness tema gelap merah-putih. Kode aplikasinya ada di `www/index.html`, lalu dibungkus jadi aplikasi Android dengan Capacitor.
+## Jalankan lokal
+Service worker/PWA membutuhkan HTTPS atau localhost. Dari folder ini jalankan:
 
-## Cara mendapatkan APK
+```bash
+python -m http.server 8000
+```
 
-1. Buat repo baru di GitHub, lalu unggah semua isi folder ini (termasuk folder `.github`).
-2. Buka tab **Actions** di repo, pilih **Build Android APK**, lalu **Run workflow**. Build juga jalan otomatis setiap push ke branch `main`.
-3. Tunggu sekitar 5 menit sampai build hijau.
-4. Buka run yang selesai, lalu unduh **ember-fitness-apk** dari bagian Artifacts. Di dalamnya ada `app-debug.apk`.
-5. Kirim APK ke HP Android, buka, lalu izinkan pemasangan dari sumber tidak dikenal.
+Lalu buka `http://localhost:8000` di browser.
 
-## Mengubah aplikasi
+## Deploy
+Upload seluruh isi folder ke static hosting yang menyediakan HTTPS (misalnya Netlify, Vercel static, atau GitHub Pages). Jangan hanya upload `index.html`; semua file harus berada dalam satu folder dengan struktur yang sama.
 
-Edit `www/index.html`, lalu push. APK baru dibuat otomatis.
+## Fitur yang tersedia
+- Mode Trainer dan Client (pemilihan akun demo)
+- CRUD profil client
+- Measurement log (berat badan dan body fat)
+- Workout log
+- Nutrition/food log dan makro
+- Progress photo upload (batas 1.8 MB per foto)
+- Goal progress dashboard
+- PWA manifest dan service worker cache untuk akses offline setelah kunjungan pertama
 
-## Catatan
+## Catatan penting sebelum dipakai oleh client sungguhan
+Versi ini adalah prototype fungsional local-first. Data disimpan di `localStorage` browser/perangkat yang digunakan. Artinya data tidak otomatis tersinkron antar perangkat, browser, trainer, dan client. Pemilihan role adalah mode demo, bukan autentikasi aman; jangan memasukkan data pribadi sensitif atau membagikan deployment ini untuk penggunaan produksi multi-user.
 
-- APK ini bertipe debug, cukup untuk dipakai sendiri. Untuk Play Store perlu APK/AAB bertanda tangan (release).
-- Data latihan tersimpan di penyimpanan aplikasi pada perangkat itu saja.
-- Versi iOS butuh Mac dan akun Apple Developer, jadi belum disertakan.
+Agar trainer dan client memiliki akun masing-masing dengan data yang tersinkron, perlu ditambahkan backend seperti Supabase atau Firebase, autentikasi, database terpusat, storage foto privat, serta aturan akses per client. Service worker hanya menyediakan cache/offline dasar; perubahan data offline belum memiliki mekanisme sinkronisasi konflik.
